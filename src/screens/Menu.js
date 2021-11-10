@@ -5,7 +5,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import Screen1 from '../screens/Screen1';
 import Screen2 from '../screens/Screen2';
 import Screen3 from '../screens/Screen3';
-
+import Login from '../screens/Login';
+import Register from '../screens/Register';
 
 
 export default class Menu extends Component{
@@ -26,6 +27,9 @@ export default class Menu extends Component{
               <Drawer.Screen name = "screen1" component={Screen1}></Drawer.Screen>
               <Drawer.Screen name = "screen2" component={Screen2}></Drawer.Screen>
               <Drawer.Screen name = "screen3" component={Screen3}></Drawer.Screen>
+              <Drawer.Screen name = "Login" component={Login}></Drawer.Screen>
+              <Drawer.Screen name = "Registrarse" component={Register}></Drawer.Screen>
+
             </Drawer.Navigator>
           </NavigationContainer>
 
