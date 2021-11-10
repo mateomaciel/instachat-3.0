@@ -8,6 +8,16 @@ export default class Register extends Component {
         this.state = {
             email: "",
             password: "",
+            username: ""
+        }
+    }
+
+    handleRegister(){
+        if (this.state.email !== "" && this.state.password !== "" && this.state.username !== ""){
+            this.props.handleRegister(this.state.email, this.state.password, this.state.username)
+        }
+        else {
+            console.log("Completar los campos!")
         }
     }
 
@@ -15,6 +25,13 @@ export default class Register extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>Registro</Text>
+                <TextInput
+                    style={styles.field}
+                    keyboardType="default"
+                    placeholder="username"
+                    
+                    onChangeText={text => this.setState({ username: text })}
+                />
                 <TextInput
                     style={styles.field}
                     keyboardType="email-address"
@@ -28,7 +45,7 @@ export default class Register extends Component {
                     secureTextEntry={true}
                     onChangeText={text => this.setState({ password: text })}
                 />
-                <TouchableOpacity style = {styles.button} onPress={() => this.props.handleRegister(this.state.email, this.state.password)}>
+                <TouchableOpacity style = {styles.button} onPress={() => this.handleRegister()}>
                     <Text style = {styles.text}> Sign Up </Text>
                 </TouchableOpacity>
             </View>

@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import { Text, View, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 
 export default class Screen1 extends Component{
     constructor (props){
@@ -9,7 +9,10 @@ export default class Screen1 extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <Text> Screen1 </Text>
+                <Text> estas logeado </Text>
+                <TouchableOpacity style = {styles.button} onPress={() => this.props.handleLogout()}>
+                    <Text style = {styles.text}> Logout </Text>
+                </TouchableOpacity>
             </View>
         )
     }
