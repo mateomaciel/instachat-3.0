@@ -1,7 +1,7 @@
 import React, { Component }  from "react";
 import { Text, View, StyleSheet} from "react-native";
 
-export default class Screen2 extends Component{
+export default class Screen1 extends Component{
     constructor (props){
         super(props)
     }
@@ -9,7 +9,7 @@ export default class Screen2 extends Component{
     render(){
         return(
             <View style={styles.container}>
-                <Text> Home </Text>
+                <Text> Screen1 </Text>
             </View>
         )
     }
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         justifyContent: "center",
-        backgroundColor: 'green'
+        alignItems: "center",
+        backgroundColor: 'yellow'
     }
 })
