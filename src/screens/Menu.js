@@ -5,6 +5,7 @@ import Login from './Login';
 import Register from './Register';
 import Home from './Home';
 import { auth } from '../firebase/config';
+import CreatePost from './CreatePost';
 
 export default class Menu extends Component{
     constructor(props){
@@ -84,9 +85,14 @@ export default class Menu extends Component{
             <NavigationContainer>
                     <Drawer.Navigator initialRouteName="Login">
                         {this.state.loggedIn === true ? 
+                        <>
                         <Drawer.Screen name = "Home">
                             {props => <Home {...props} handleLogout={()=>this.handleLogout()}/>}
                         </Drawer.Screen>
+                        <Drawer.Screen name = "CreatePost">
+                                {props => <CreatePost {...props}/>}
+                            </Drawer.Screen>
+                        </>
                         :
                         <>
                             <Drawer.Screen name="Login">
