@@ -14,6 +14,7 @@ export default class MyCamera extends React.Component{
     }
 
     componentDidMount(){
+        console.log(Camera)
         Camera.requestCameraPermissionsAsync()
         .then(response => {
             console.log(response)
