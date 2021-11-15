@@ -14,16 +14,16 @@ export default class MyCamera extends React.Component{
     }
 
     componentDidMount(){
-        console.log(Camera)
-        Camera.requestCameraPermissionsAsync()
+        console.log(Camera);
+        Camera.getCameraPermissionsAsync()
         .then(response => {
             console.log(response)
             this.setState({
             permission: response.granted
             })
         })
+        .catch (error => console.log(error))
     }
-
     takePicture(){
         if(!this.camera) return;
         this.camera.takePictureAsync()
@@ -64,6 +64,7 @@ export default class MyCamera extends React.Component{
     }
 
     render(){
+        console.log(this.camera)
         console.log(this.state)
         return(
         <View style = {styles.container}>
@@ -107,6 +108,7 @@ export default class MyCamera extends React.Component{
         </View>
         )
     }
+    
 }
 
 export const styles = StyleSheet.create({
