@@ -9,7 +9,8 @@ export default class Post extends Component{
         super(props);
         this.state = {
             liked: false,
-            likes: 0
+            likes: 0,
+            showModal: false,
         }
     }
 
@@ -55,6 +56,22 @@ export default class Post extends Component{
             })
         })
     }
+
+       //Muestra el modal
+       showModal(){
+        console.log('Mostrando modal')
+        this.setState({
+            showModal: true,
+        })
+    }
+    
+    //Cierra el modal
+    closeModal(){
+        console.log('Cerrando modal')
+        this.setState({
+            showModal: false,
+        })
+    }
     
     render(){
 
@@ -63,6 +80,9 @@ export default class Post extends Component{
         return(
             <View stlye={styles.container}>
                 <Text>{this.props.dataItem.data.description}</Text>
+                 <Image style={styles.image}
+                    source={{uri:`${this.props.dataItem.data.photo}`}}
+                    resizeMode='contain'/>
                 <Text>{this.props.dataItem.data.createdAt}</Text>
                 <Text>{this.props.dataItem.data.owner}</Text>
                 <Text>Likes: {this.state.likes}</Text>
@@ -91,6 +111,7 @@ export default class Post extends Component{
 const styles = StyleSheet.create({
     image: {
         height: 200,
+        width: 200 
     
     },
     container:{
