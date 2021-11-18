@@ -80,32 +80,41 @@ export default class Post extends Component{
         
         return(
             <View style={styles.container}>
-                <Text style={styles.Username}>{this.props.dataItem.data.owner}</Text>
-                 <Image style={styles.image}
+                <View style = {styles.Usernamecontainer}>
+                    <Text style={styles.Username}>{this.props.dataItem.data.owner}</Text>
+                    <Image style={styles.ProfileIcon} source={require('../../assets/ProfileIcon.jpg')}resizeMode='cover'/>
+                </View>
+                <Image style={styles.image}
                     source={{uri:`${this.props.dataItem.data.photo}`}}
                     resizeMode='cover'/>
-                <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
-                <Text style={styles.Likes}>Likes: {this.state.likes}</Text>
+                <View style = {styles.LikeInfo}>
                 {
                     !this.state.liked ?
                     <TouchableOpacity onPress = {()=> this.onLike()}>
-                        <Image style={styles.like}source={require('../../assets/unliked.png')}resizeMode='contain'/>
+                        <Image style={styles.like}source={require('../../assets/unliked.png')}resizeMode='cover'/>
 
                     </TouchableOpacity>
                     :
                     <TouchableOpacity onPress = {()=> this.onDislike()}>
-                        <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='contain'/>
+                        <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='cover'/>
 
                     </TouchableOpacity>
                 }
+                
+                <Text style={styles.LikesInd}>Likes: {this.state.likes}</Text>
+                </View>
+
+                <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
+                
+                
                 <View style = {styles.CommentBox}>
-                    <TextInput placeholder =  "Comentar" keyboardType='default' style = {styles.CommentInput}/>
+                    <TextInput placeholder = "Escribe un comentario" keyboardType='default' style = {styles.CommentInput}/>
                     <TouchableOpacity style = {styles.CommentButton}>
-                        <Text>Comentar</Text>
+                        <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
                 
-                <Text stlye={styles.CA}>{this.props.dataItem.data.createdAt}</Text>
+                <Text style={styles.CA}>{this.props.dataItem.data.createdAt}</Text>
             </View>
         )
     }
@@ -120,55 +129,88 @@ const styles = StyleSheet.create({
     container:{
         width: '100%',
         height: '100%',
-        backgroundColor: '#ffd77e',
+        backgroundColor: '#64a5af',
         marginBottom: '20px',
-        
+        borderWidth: 1,
+        borderColor: '#64a5af',
+    },
+    Usernamecontainer: {
+        flexDirection: 'row-reverse',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
     },
     Username: {
-        flex: 1,
-        marginBottom: '10px',
-        backgroundColor: '#ffd77e'
-        
+        fontSize: 18,
+        paddingLeft: 3
     },
-    ImgContainer: {
-        flex: 1,
-        marginBottom: '10px',
-        height: '100%',
+    ProfileIcon: {
+        width: '8vw',
+        height: '4vh',
     },
     Desc: {
         flex: 1,
-        marginBottom: '10px',
+        fontSize: 14,
+        paddingLeft: 13,
+        paddingTop: 4,
     },
-    Likes: {
-        flex: 1,
-        marginBottom: '10px',
+    LikeInfo: {
+        flexDirection: 'row',
+
+    },
+    LikesInd: {
+        marginTop: 4,
+        marginLeft: 5,
+        fontSize: 18
+        
     },
     LikeButtonContainer: {
         flex: 1,
-        marginBottom: '10px',
     },
     CA:{
         flex: 1,
-        justifyContent: 'center',
-        padding: 5,
+       
     },
 
     like: {
-        height: 20,
+        height: '3vh',
+        width: '6vw',
+        marginTop: 4,
+        marginLeft: 6,
     },
 
     CommentBox: {
-        flex: 1,
         flexDirection: 'row',
+        alignItems: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
 
     CommentInput: {
-        flex: 3,
+        height: '3vh',
+        width: '66vw',
+        borderWidth: 2,
+        borderColor: '#003c46',
+        marginLeft: 6,
+        borderRadius: 4,
+        alignItems: 'center',
+        color: '#64a5af',
+        backgroundColor: '#003c46',
     },
 
     CommentButton: {
-        flex: 1,
+        marginRight: '7vw',
+        borderWidth: 2,
+        borderColor: '#003c46',
+        backgroundColor: '#003c46',
+        borderRadius: 4,
+        paddingTop: '0.3vw',
+        paddingLeft: '0.3vw',
+        paddingRight: '0.3vw',
+        paddingBottom: '0.6vw',
+        alignItems: 'center',
+    },
+    text:{
+        color: '#64a5af'
     }
-
        
 })

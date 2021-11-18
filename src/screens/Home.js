@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, FlatList, Image} from 'react-native';
 
 import Post from '../components/Post';
 import { db } from '../firebase/config';
@@ -34,6 +34,7 @@ export default class Screen1 extends Component {
             <View style={styles.Container}>
 
                 <View style = {styles.Header}>
+                <Image style={styles.Logo} source={require('../../assets/InstachatLogo.jpg')}resizeMode='cover'/>
                 <TouchableOpacity style = {styles.button} onPress={() => this.props.handleLogout()}>
                     <Text style = {styles.text}> Logout </Text>
                 </TouchableOpacity>
@@ -54,15 +55,36 @@ export default class Screen1 extends Component {
 const styles = StyleSheet.create({
     Container: {
         flex: 1,
-        /*backgroundColor: '#f99d5a'*/
+        backgroundColor: '#64a5af',
     },
     Header: {
         flex: 1,
-        width: '100%'
+        flexDirection: 'row',
+        width: '100%',
+        backgroundColor: '#003c46',
+        fontSize: '16px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        
+    },
+    Logo:{
+        height: '8vh',
+        width: '14vw',
+        marginLeft: 12,
     },
     PostContainer: {
-        flex: 15,
+        flex: 12,
 
         
+    },
+    text: {
+
+    },
+    button:{
+        borderWidth: 2,
+        borderColor: '#64a5af',
+        borderRadius: 4,
+        backgroundColor: '#64a5af',
+        marginRight: 12
     }
 })
