@@ -79,13 +79,12 @@ export default class Post extends Component{
         
         return(
             <View stlye={styles.container}>
-                <Text>{this.props.dataItem.data.description}</Text>
+                <Text>{this.props.dataItem.data.owner}</Text>
                  <Image style={styles.image}
                     source={{uri:`${this.props.dataItem.data.photo}`}}
                     resizeMode='contain'/>
+                <Text>{this.props.dataItem.data.description}</Text>
                 <Text>{this.props.dataItem.data.createdAt}</Text>
-                <Text>{this.props.dataItem.data.owner}</Text>
-                <Text>Likes: {this.state.likes}</Text>
                 {
                     !this.state.liked ?
                     <TouchableOpacity onPress = {()=> this.onLike()}>
@@ -98,6 +97,7 @@ export default class Post extends Component{
 
                     </TouchableOpacity>
                 }
+                <Text>Likes: {this.state.likes}</Text>
                 {/*<Modal>
 
                 </Modal>*/}
