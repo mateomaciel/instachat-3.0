@@ -9,12 +9,16 @@ export default class Buscador extends Component{
         super(props);
         this.state = {
             input: "",
-            result: []
+            result: [],
+            arrayVacio: false,
+            loader: false
         }
     }
 
     Buscar(text){
-        this.setState({input: text})
+        this.setState({input: text,
+                    arrayVacio: false,
+                    loader: true})
         this.setState({result: []})
         db.collection('posts').where('owner', '==', `${text.toLowerCase()}`).orderBy('createdAt', 'desc').onSnapshot(
             docs => {
@@ -26,14 +30,19 @@ export default class Buscador extends Component{
                     })
                 })
                 this.setState({
-                    result: postsAux
+                    result: postsAux,
                 })
                 
             }
 
             
         )
-    
+        setTimeout(() => {
+            this.setState({
+            loader: false
+        })
+            }, 1000);
+        
     }
     
     
@@ -41,7 +50,8 @@ export default class Buscador extends Component{
     render(){
         console.log(this.state.input)
         console.log(this.state.result)
-        if(this.state.result.length < 1 && this.state.input !== ""){
+        console.log(this.state.loader)
+        if(this.state.loader === true){
             return(
             <View>
                 <View>
@@ -51,6 +61,18 @@ export default class Buscador extends Component{
                     <ActivityIndicator size = 'large' color = 'blue'/>
                 </View>
             </View>
+            )
+        }
+        else if(this.state.result.length === 0 && this.state.input !== ""){
+            return(
+                <View>
+                    <View>
+                        <TextInput placeholder = "Buscar usuarios" onChangeText = {text => this.Buscar(text)}/>
+                    </View>
+                    <View>
+                        <Text>No hay resultados</Text>
+                    </View>
+                </View>
             )
         }
         else{

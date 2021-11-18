@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity, Modal } from 'react-native'
 import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default class Post extends Component{
 
@@ -78,40 +79,33 @@ export default class Post extends Component{
         
         
         return(
-            <View stlye={styles.container}>
-                <View style={styles.UserContainer}>
-                    <Text>{this.props.dataItem.data.owner}</Text>
-                </View>
-                <View style={styles.ImgContainer}>
-                    <Image style={styles.image}
+            <View style={styles.container}>
+                <Text style={styles.Username}>{this.props.dataItem.data.owner}</Text>
+                 <Image style={styles.image}
                     source={{uri:`${this.props.dataItem.data.photo}`}}
                     resizeMode='cover'/>
-                </View>
-                <View style={styles.DescContainer}>
-                    <Text>{this.props.dataItem.data.description}</Text>
-                </View>
-                <View style={styles.LikeContainer}>
-                    <Text>Likes: {this.state.likes}</Text>
-                </View>
-                <View style={styles.LikeButtonContainer}>
-                    {
+                <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
+                <Text style={styles.Likes}>Likes: {this.state.likes}</Text>
+                {
                     !this.state.liked ?
                     <TouchableOpacity onPress = {()=> this.onLike()}>
-                        <Text>
-                            Like
-                        </Text>
+                        <Image style={styles.like}source={require('../../assets/unliked.png')}resizeMode='contain'/>
+
                     </TouchableOpacity>
                     :
                     <TouchableOpacity onPress = {()=> this.onDislike()}>
-                        <Text>
-                            Unlike
-                        </Text>
+                        <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='contain'/>
+
                     </TouchableOpacity>
-                    }
+                }
+                <View style = {styles.CommentBox}>
+                    <TextInput placeholder =  "Comentar" keyboardType='default' style = {styles.CommentInput}/>
+                    <TouchableOpacity style = {styles.CommentButton}>
+                        <Text>Comentar</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.CAContainer}>
-                    <Text>{this.props.dataItem.data.createdAt}</Text> 
-                </View>  
+                
+                <Text stlye={styles.CA}>{this.props.dataItem.data.createdAt}</Text>
             </View>
         )
     }
@@ -119,32 +113,33 @@ export default class Post extends Component{
 
 const styles = StyleSheet.create({
     image: {
-        height: '100%',
         width: '100%',
+        height: '50vh',
+        
     },
     container:{
         width: '100%',
         height: '100%',
         backgroundColor: '#ffd77e',
         marginBottom: '20px',
-        justifyContent: 'space-around'
         
     },
-    UserContainer: {
+    Username: {
         flex: 1,
         marginBottom: '10px',
         backgroundColor: '#ffd77e'
+        
     },
     ImgContainer: {
         flex: 1,
         marginBottom: '10px',
         height: '100%',
     },
-    DescContainer: {
+    Desc: {
         flex: 1,
         marginBottom: '10px',
     },
-    LikeContainer: {
+    Likes: {
         flex: 1,
         marginBottom: '10px',
     },
@@ -152,8 +147,28 @@ const styles = StyleSheet.create({
         flex: 1,
         marginBottom: '10px',
     },
-    CAContainer:{
+    CA:{
         flex: 1,
-        marginBottom: '10px',
+        justifyContent: 'center',
+        padding: 5,
+    },
+
+    like: {
+        height: 20,
+    },
+
+    CommentBox: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+
+    CommentInput: {
+        flex: 3,
+    },
+
+    CommentButton: {
+        flex: 1,
     }
+
+       
 })
