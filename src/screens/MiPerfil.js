@@ -59,7 +59,7 @@ export default class MiPerfil extends Component{
                 <Post dataItem = {item}
                 delete ={(id)=> this.delete(id)}></Post> 
                       {
-                  <TouchableOpacity onPress ={()=> this.delete(id)}>
+                  <TouchableOpacity onPress ={()=> this.delete(item.id)}>
                   <Text>
                       Borrar
                   </Text>
