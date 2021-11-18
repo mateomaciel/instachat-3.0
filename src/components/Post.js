@@ -89,15 +89,13 @@ export default class Post extends Component{
                 {
                     !this.state.liked ?
                     <TouchableOpacity onPress = {()=> this.onLike()}>
-                        <Text>
-                            Like
-                        </Text>
+                        <Image style={styles.like}source={require('../../assets/unliked.png')}resizeMode='contain'/>
+
                     </TouchableOpacity>
                     :
                     <TouchableOpacity onPress = {()=> this.onDislike()}>
-                        <Text>
-                            Unlike
-                        </Text>
+                        <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='contain'/>
+
                     </TouchableOpacity>
                 }
                 {/*<Modal>
@@ -118,5 +116,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 5,
-    }
+    },
+
+    like: {
+        height: 20,
+        },
+       
 })
