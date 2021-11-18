@@ -83,8 +83,10 @@ export default class Post extends Component{
                  <Image style={styles.image}
                     source={{uri:`${this.props.dataItem.data.photo}`}}
                     resizeMode='contain'/>
-                <Text>{this.props.dataItem.data.createdAt}</Text>
+              <Text>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+              
                 <Text>{this.props.dataItem.data.owner}</Text>
+
                 <Text>Likes: {this.state.likes}</Text>
                 {
                     !this.state.liked ?

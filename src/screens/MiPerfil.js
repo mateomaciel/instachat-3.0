@@ -26,6 +26,12 @@ export default class MiPerfil extends Component{
             })
         }
     )}
+
+    delete(id){
+        const posteoActualizar = db.collection('posts').doc(id)
+        posteoActualizar.delete()
+       
+    }
     
     
     render(){
@@ -47,13 +53,32 @@ export default class MiPerfil extends Component{
                 <FlatList
                 data = {this.state.posts}
                 keyExtractor = {post => post.id.toString()}
-                renderItem = { ({item}) =>  <Post dataItem = {item}></Post> }
-               />
+                renderItem = { ({item}) =>  
+                <>
+                <Post dataItem = {item}
+                delete ={(id)=> this.delete(id)}></Post> 
+                      {
+                  <TouchableOpacity onPress ={()=> this.delete(id)}>
+                  <Text>
+                      Borrar
+                  </Text>
+
+                </TouchableOpacity>
+                
+              }
+               </>
+                }
+                />
+             
             </View>
+           
+           
             <View style={styles.Logout}>
                 <TouchableOpacity  onPress={() => this.props.handleLogout()}>
                     <Text> Logout </Text>
                 </TouchableOpacity>
+
+                
             </View>
         </View>
         

@@ -44,6 +44,7 @@ export default class Screen1 extends Component {
                 keyExtractor = {post => post.id.toString()}
                 renderItem = { ({item}) =>  <Post dataItem = {item}></Post> }
                />
+               
             </View>
         )
     }
