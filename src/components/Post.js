@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity, Modal } from 'react-native'
 import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default class Post extends Component{
 
@@ -75,36 +76,37 @@ export default class Post extends Component{
     
     render(){
 
-        console.log(this.props.dataItem);
+        
         
         return(
-            <View stlye={styles.container}>
-                <Text>{this.props.dataItem.data.description}</Text>
+            <View style={styles.container}>
+                <Text style={styles.Username}>{this.props.dataItem.data.owner}</Text>
                  <Image style={styles.image}
                     source={{uri:`${this.props.dataItem.data.photo}`}}
-                    resizeMode='contain'/>
-              <Text>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
-              
-                <Text>{this.props.dataItem.data.owner}</Text>
-
-                <Text>Likes: {this.state.likes}</Text>
+                    resizeMode='cover'/>
+                    <Text>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+                <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
+                <Text style={styles.Likes}>Likes: {this.state.likes}</Text>
                 {
                     !this.state.liked ?
                     <TouchableOpacity onPress = {()=> this.onLike()}>
-                        <Text>
-                            Like
-                        </Text>
+                        <Image style={styles.like}source={require('../../assets/unliked.png')}resizeMode='contain'/>
+
                     </TouchableOpacity>
                     :
                     <TouchableOpacity onPress = {()=> this.onDislike()}>
-                        <Text>
-                            Unlike
-                        </Text>
+                        <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='contain'/>
+
                     </TouchableOpacity>
                 }
-                {/*<Modal>
-
-                </Modal>*/}
+                <View style = {styles.CommentBox}>
+                    <TextInput placeholder =  "Comentar" keyboardType='default' style = {styles.CommentInput}/>
+                    <TouchableOpacity style = {styles.CommentButton}>
+                        <Text>Comentar</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                <Text stlye={styles.CA}>{this.props.dataItem.data.createdAt}</Text>
             </View>
         )
     }
@@ -112,13 +114,62 @@ export default class Post extends Component{
 
 const styles = StyleSheet.create({
     image: {
-        height: 200,
-        width: 200 
-    
+        width: '100%',
+        height: '50vh',
+        
     },
     container:{
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#ffd77e',
+        marginBottom: '20px',
+        
+    },
+    Username: {
+        flex: 1,
+        marginBottom: '10px',
+        backgroundColor: '#ffd77e'
+        
+    },
+    ImgContainer: {
+        flex: 1,
+        marginBottom: '10px',
+        height: '100%',
+    },
+    Desc: {
+        flex: 1,
+        marginBottom: '10px',
+    },
+    Likes: {
+        flex: 1,
+        marginBottom: '10px',
+    },
+    LikeButtonContainer: {
+        flex: 1,
+        marginBottom: '10px',
+    },
+    CA:{
         flex: 1,
         justifyContent: 'center',
         padding: 5,
+    },
+
+    like: {
+        height: 20,
+    },
+
+    CommentBox: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+
+    CommentInput: {
+        flex: 3,
+    },
+
+    CommentButton: {
+        flex: 1,
     }
+
+       
 })

@@ -7,6 +7,7 @@ import Home from './Home';
 import { auth } from '../firebase/config';
 import CreatePost from './CreatePost';
 import MiPerfil from './MiPerfil';
+import Buscador from './Buscador'
 
 export default class Menu extends Component{
     constructor(props){
@@ -31,7 +32,6 @@ export default class Menu extends Component{
         auth.signInWithEmailAndPassword(email, password)
         .then( response => {
             console.log(response);
-            alert("Usuario loggeado!");
             this.setState({
                 loggedIn: true
             })
@@ -50,7 +50,6 @@ export default class Menu extends Component{
         auth.createUserWithEmailAndPassword(email, password)
         .then( response => {
             console.log(response);
-            alert("Usuario registrado!");
             response.user.updateProfile({
                 displayName: username
             })
@@ -95,6 +94,9 @@ export default class Menu extends Component{
                             </Drawer.Screen>
                         <Drawer.Screen name = "Mi perfil">
                                 {props => <MiPerfil {...props} handleLogout={()=>this.handleLogout()}/>}
+                        </Drawer.Screen>
+                        <Drawer.Screen name = "Buscar">
+                                {props => <Buscador {...props}/>}
                         </Drawer.Screen>
                         </>
                         :

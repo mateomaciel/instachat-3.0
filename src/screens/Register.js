@@ -12,12 +12,12 @@ export default class Register extends Component {
         }
     }
 
-    handleRegister(){
+    ControlRegister(){
         if (this.state.email !== "" && this.state.password !== "" && this.state.username !== ""){
             this.props.handleRegister(this.state.email, this.state.password, this.state.username)
         }
         else {
-            console.log("Completar los campos!")
+            alert("Completar los campos!")
         }
     }
 
@@ -45,7 +45,7 @@ export default class Register extends Component {
                     secureTextEntry={true}
                     onChangeText={text => this.setState({ password: text })}
                 />
-                <TouchableOpacity style = {styles.button} onPress={() => this.handleRegister()}>
+                <TouchableOpacity style = {styles.button} onPress={() => this.ControlRegister()}>
                     <Text style = {styles.text}> Sign Up </Text>
                 </TouchableOpacity>
             </View>

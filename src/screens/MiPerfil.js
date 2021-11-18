@@ -30,6 +30,7 @@ export default class MiPerfil extends Component{
     delete(id){
         const posteoActualizar = db.collection('posts').doc(id)
         posteoActualizar.delete()
+        
        
     }
     
