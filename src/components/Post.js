@@ -79,14 +79,22 @@ export default class Post extends Component{
         
         return(
             <View stlye={styles.container}>
-                <Text>{this.props.dataItem.data.description}</Text>
-                 <Image style={styles.image}
+                <View style={styles.UserContainer}>
+                    <Text>{this.props.dataItem.data.owner}</Text>
+                </View>
+                <View style={styles.ImgContainer}>
+                    <Image style={styles.image}
                     source={{uri:`${this.props.dataItem.data.photo}`}}
-                    resizeMode='contain'/>
-                <Text>{this.props.dataItem.data.createdAt}</Text>
-                <Text>{this.props.dataItem.data.owner}</Text>
-                <Text>Likes: {this.state.likes}</Text>
-                {
+                    resizeMode='cover'/>
+                </View>
+                <View style={styles.DescContainer}>
+                    <Text>{this.props.dataItem.data.description}</Text>
+                </View>
+                <View style={styles.LikeContainer}>
+                    <Text>Likes: {this.state.likes}</Text>
+                </View>
+                <View style={styles.LikeButtonContainer}>
+                    {
                     !this.state.liked ?
                     <TouchableOpacity onPress = {()=> this.onLike()}>
                         <Text>
@@ -99,10 +107,11 @@ export default class Post extends Component{
                             Unlike
                         </Text>
                     </TouchableOpacity>
-                }
-                {/*<Modal>
-
-                </Modal>*/}
+                    }
+                </View>
+                <View style={styles.CAContainer}>
+                    <Text>{this.props.dataItem.data.createdAt}</Text> 
+                </View>  
             </View>
         )
     }
@@ -110,13 +119,41 @@ export default class Post extends Component{
 
 const styles = StyleSheet.create({
     image: {
-        height: 200,
-        width: 200 
-    
+        height: '100%',
+        width: '100%',
     },
     container:{
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#ffd77e',
+        marginBottom: '20px',
+        justifyContent: 'space-around'
+        
+    },
+    UserContainer: {
         flex: 1,
-        justifyContent: 'center',
-        padding: 5,
+        marginBottom: '10px',
+        backgroundColor: '#ffd77e'
+    },
+    ImgContainer: {
+        flex: 1,
+        marginBottom: '10px',
+        height: '100%',
+    },
+    DescContainer: {
+        flex: 1,
+        marginBottom: '10px',
+    },
+    LikeContainer: {
+        flex: 1,
+        marginBottom: '10px',
+    },
+    LikeButtonContainer: {
+        flex: 1,
+        marginBottom: '10px',
+    },
+    CAContainer:{
+        flex: 1,
+        marginBottom: '10px',
     }
 })

@@ -31,36 +31,38 @@ export default class Screen1 extends Component {
 
     render(){
         return( 
-            <View style={styles.container}>
+            <View style={styles.Container}>
 
-                <View style = {styles.header}>
-                <Text> Home </Text>
-                <Text> estas logeado </Text>
+                <View style = {styles.Header}>
                 <TouchableOpacity style = {styles.button} onPress={() => this.props.handleLogout()}>
                     <Text style = {styles.text}> Logout </Text>
                 </TouchableOpacity>
                 </View>
+                <View style = {styles.PostContainer}>
+                    <FlatList
+                        data = {this.state.posts}
+                        keyExtractor = {post => post.id.toString()}
+                        renderItem = { ({item}) =>  <Post dataItem = {item}></Post> }
+                    /> 
+                </View>
 
-                <FlatList
-                data = {this.state.posts}
-                keyExtractor = {post => post.id.toString()}
-                renderItem = { ({item}) =>  <Post dataItem = {item}></Post> }
-               />
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
+    Container: {
         flex: 1,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: '#f99d5a'
+        /*backgroundColor: '#f99d5a'*/
     },
-    header: {
-        display: "grid",
-        gridTemplateColumn: "1fr 1fr 1fr"
+    Header: {
+        flex: 1,
+        width: '100%'
+    },
+    PostContainer: {
+        flex: 15,
+
+        
     }
 })
