@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#64a5af',
     },
     Header: {
-        flex: 1,
+        paddingBottom: 1,
         flexDirection: 'row',
         width: '100%',
         backgroundColor: '#003c46',
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
         marginLeft: 12,
     },
     PostContainer: {
-        flex: 12,
 
         
     },

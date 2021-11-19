@@ -58,6 +58,9 @@ export default class CreatePost extends Component {
                     source ={{uri: this.state.photo}}
                     style = {styles.imagen}
                 />
+                
+               
+        
                 <TextInput
                     style={styles.field}
                     keyboardType='default'
@@ -70,6 +73,7 @@ export default class CreatePost extends Component {
                 <TouchableOpacity style = {styles.button} onPress={() => this.handlePost()}>
                     <Text style = {styles.text}> Post </Text>
                 </TouchableOpacity>
+               
             </View>
             </>
             }

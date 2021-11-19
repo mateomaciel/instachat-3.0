@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import { Text, TextInput, TouchableOpacity, View, StyleSheet, FlatList} from 'react-native';
+import { Text, TextInput, TouchableOpacity, View, StyleSheet, FlatList, Image} from 'react-native';
 import { auth, db } from '../firebase/config';
 import Post from '../components/Post'
 
@@ -26,34 +26,46 @@ export default class MiPerfil extends Component{
             })
         }
     )}
+
+    delete(id){
+        const posteoActualizar = db.collection('posts').doc(id)
+        posteoActualizar.delete()
+    }
     
     
     render(){
         return(
         <View style={styles.Container}>
+            <View style = {styles.Header}>
+                <Image style={styles.Logo} source={require('../../assets/InstachatLogo.jpg')}resizeMode='cover'/>
+                <TouchableOpacity style = {styles.button} onPress={() => this.props.handleLogout()}>
+                    <Text style = {styles.text}> Logout </Text>
+                </TouchableOpacity>
+            </View>
+            <View style = {styles.UserInfo}>
             <View style={styles.Username}>
-                {auth.currentUser.displayName}
+                <Text>{auth.currentUser.displayName}</Text>
             </View>
             <View style={styles.UserEmail}>
-                {auth.currentUser.email}
+                <Text>{auth.currentUser.email}</Text>
             </View>
             <View style={styles.NdePosts}>
-                Publicaciones: {this.state.posts.length}
+                <Text>Publicaciones: {this.state.posts.length}</Text> 
             </View>
             <View style={styles.UltAcceso}>
-                Ultimo logueo: {auth.currentUser.metadata.lastSignInTime}
+                <Text>Ultimo logueo: {auth.currentUser.metadata.lastSignInTime}</Text>
             </View>
+            </View>
+            
             <View style={styles.UserPosts}>
                 <FlatList
                 data = {this.state.posts}
                 keyExtractor = {post => post.id.toString()}
-                renderItem = { ({item}) =>  <Post dataItem = {item}></Post> }
-               />
-            </View>
-            <View style={styles.Logout}>
-                <TouchableOpacity  onPress={() => this.props.handleLogout()}>
-                    <Text> Logout </Text>
-                </TouchableOpacity>
+                renderItem = { ({item}) =>  
+                <Post dataItem = {item}></Post> 
+                }
+                />
+             
             </View>
         </View>
         
@@ -62,11 +74,42 @@ export default class MiPerfil extends Component{
 }
 
 const styles = StyleSheet.create({
-    Container: {},
+    Header: {
+        paddingBottom: 1,
+        flexDirection: 'row',
+        width: '100%',
+        backgroundColor: '#003c46',
+        fontSize: '16px',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        
+    },
+    Logo:{
+        height: '8vh',
+        width: '14vw',
+        marginLeft: 12,
+    },
+    button:{
+        borderWidth: 2,
+        borderColor: '#64a5af',
+        borderRadius: 4,
+        backgroundColor: '#64a5af',
+        marginRight: 12
+    },
+    text: {
+
+    },
+    UserInfo: {
+    },
+    Container: {
+        flex: 1,
+    },
     Username: {},
     UserEmail: {},
     NdePosts: {},
     UltAcceso: {},
-    UserPosts: {}
+    UserPosts: {
+
+    }
 
 })

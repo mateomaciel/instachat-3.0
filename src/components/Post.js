@@ -4,6 +4,7 @@ import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
 import { TextInput } from 'react-native-gesture-handler';
 
+
 export default class Post extends Component{
 
     constructor(props){
@@ -73,12 +74,62 @@ export default class Post extends Component{
             showModal: false,
         })
     }
+
+    delete(id){
+        const posteoActualizar = db.collection('posts').doc(id)
+        posteoActualizar.delete()
+    }
     
     render(){
 
-        
-        
-        return(
+        if(auth.currentUser.displayName === this.props.dataItem.data.owner){
+            return(
+                <View style={styles.container}>
+                <View style = {styles.Usernamecontainer2}>
+                    <TouchableOpacity onPress ={()=> this.delete(this.props.dataItem.id)} style = {styles.DelButton}>
+                        <Text style = {styles.text}>
+                            Eliminar publicación
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.Username2}>{this.props.dataItem.data.owner}</Text>
+                    <Image style={styles.ProfileIcon} source={require('../../assets/ProfileIcon.jpg')}resizeMode='cover'/>
+                </View>
+                <Image style={styles.image}
+                    source={{uri:`${this.props.dataItem.data.photo}`}}
+                    resizeMode='cover'/>
+                <View style = {styles.LikeInfo}>
+                {
+                    !this.state.liked ?
+                    <TouchableOpacity onPress = {()=> this.onLike()}>
+                        <Image style={styles.like}source={require('../../assets/unliked.png')}resizeMode='cover'/>
+
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity onPress = {()=> this.onDislike()}>
+                        <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='cover'/>
+
+                    </TouchableOpacity>
+                }
+                
+                <Text style={styles.LikesInd}>Likes: {this.state.likes}</Text>
+                </View>
+
+                <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
+                
+                
+                <View style = {styles.CommentBox}>
+                    <TextInput placeholder = "Escribe un comentario" keyboardType='default' style = {styles.CommentInput}/>
+                    <TouchableOpacity style = {styles.CommentButton}>
+                        <Text style = {styles.text}>Comentar</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+            </View>
+            )
+        }
+        else{
+            return(
             <View style={styles.container}>
                 <View style = {styles.Usernamecontainer}>
                     <Text style={styles.Username}>{this.props.dataItem.data.owner}</Text>
@@ -114,9 +165,13 @@ export default class Post extends Component{
                     </TouchableOpacity>
                 </View>
                 
-                <Text style={styles.CA}>{this.props.dataItem.data.createdAt}</Text>
+                <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
             </View>
         )
+        }
+        
+        
+        
     }
 }
 
@@ -130,28 +185,37 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         backgroundColor: '#64a5af',
-        marginBottom: '20px',
-        borderWidth: 1,
-        borderColor: '#64a5af',
+        marginBottom: 8,
+        borderBottomWidth: 2,
+        borderColor: '#003c46',
     },
     Usernamecontainer: {
         flexDirection: 'row-reverse',
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
+    Usernamecontainer2: {
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     Username: {
         fontSize: 18,
         paddingLeft: 3
+    },
+    Username2: {
+        fontSize: 18,
+        paddingRight: '32vw'
     },
     ProfileIcon: {
         width: '8vw',
         height: '4vh',
     },
     Desc: {
-        flex: 1,
         fontSize: 14,
         paddingLeft: 13,
         paddingTop: 4,
+        height: '4vh'
     },
     LikeInfo: {
         flexDirection: 'row',
@@ -167,7 +231,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     CA:{
-        flex: 1,
+        marginTop: '1vh',
+        marginLeft: '2vw',
        
     },
 
@@ -211,6 +276,18 @@ const styles = StyleSheet.create({
     },
     text:{
         color: '#64a5af'
-    }
-       
+    },
+    DelButton: {
+        alignSelf: 'center',
+        marginRight: '2vw',
+        borderWidth: 2,
+        borderColor: '#003c46',
+        backgroundColor: '#003c46',
+        borderRadius: 4,
+        paddingTop: '0.3vw',
+        paddingLeft: '0.3vw',
+        paddingRight: '0.3vw',
+        paddingBottom: '0.6vw',
+        alignItems: 'center',
+    } 
 })
