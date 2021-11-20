@@ -10,17 +10,19 @@ export default class Buscador extends Component{
         this.state = {
             input: "",
             result: [],
-            arrayVacio: false,
             loader: false
         }
     }
 
     Buscar(text){
+        
         this.setState({input: text,
-                    arrayVacio: false,
-                    loader: true})
-        this.setState({result: []})
-        db.collection('posts').where('owner', '==', `${text.toLowerCase()}`).orderBy('createdAt', 'desc').onSnapshot(
+                    loader: true,
+                    })
+                
+        
+        setTimeout(() => {
+            db.collection('posts').where('owner', '==', `${this.state.input.toLowerCase()}`).orderBy('createdAt', 'desc').onSnapshot(
             docs => {
                 let postsAux = []
                 docs.forEach( doc => {
@@ -32,54 +34,61 @@ export default class Buscador extends Component{
                 this.setState({
                     result: postsAux,
                 })
-                
-            }
+                this.setState({
+                        loader: false
+                    })
+                console.log(this.state.input)
+                console.log(this.state.result)
+                console.log(this.state.loader)
 
-            
-        )
-        setTimeout(() => {
-            this.setState({
-            loader: false
-        })
-            }, 1000);
+            }
+        )}, 2000);
         
     }
     
     
 
     render(){
-        console.log(this.state.input)
-        console.log(this.state.result)
-        console.log(this.state.loader)
-        if(this.state.loader === true){
+        
+        if(this.state.input === "" && this.state.loader === false){
             return(
-            <View>
                 <View>
-                    <TextInput placeholder = "Buscar usuarios" onChangeText = {text => this.Buscar(text)}/>
+                    <View>
+                        <TextInput placeholder = "Buscar usuarios" onChangeText = {text => {this.Buscar(text)}}/>
+                    </View>
+                    <View>
+                        
+                    </View>
                 </View>
-                <View>
-                    <ActivityIndicator size = 'large' color = 'blue'/>
-                </View>
-            </View>
-            )
+                )
         }
-        else if(this.state.result.length === 0 && this.state.input !== ""){
+        else if(this.state.input !== "" && this.state.result.length < 1 && this.state.loader === false){
             return(
                 <View>
                     <View>
-                        <TextInput placeholder = "Buscar usuarios" onChangeText = {text => this.Buscar(text)}/>
+                        <TextInput placeholder = "Buscar usuarios" onChangeText = {text => {this.Buscar(text)}}/>
                     </View>
                     <View>
-                        <Text>No hay resultados</Text>
+                        <Text>No hay resultados para su busqueda</Text>
                     </View>
                 </View>
-            )
+                )   
+        }
+        else if(this.state.loader === true){
+            return(
+                <View>
+                    <View>
+                        <TextInput placeholder = "Buscar usuarios" onChangeText = {text => {this.Buscar(text)}}/>
+                    </View>
+                    <ActivityIndicator color = 'blue' size = 'large'/>
+                </View>
+                )   
         }
         else{
             return(
             <View>
                 <View>
-                    <TextInput placeholder = "Buscar usuarios" onChangeText = {text => this.Buscar(text)}/>
+                    <TextInput placeholder = "Buscar usuarios" onChangeText = {text => {this.Buscar(text)}}/>
                 </View>
                 <View>
                     <FlatList
@@ -89,8 +98,11 @@ export default class Buscador extends Component{
                     />
                 </View>
             </View>
-            )           
+            )   
         }
+        
+                    
+        
 
 
     }
