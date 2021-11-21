@@ -134,8 +134,13 @@ export default class Post extends Component{
                 
                 
                 <View style = {styles.CommentBox}>
-                    <TextInput placeholder = "Escribe un comentario" keyboardType='default' style = {styles.CommentInput}/>
-                    <TouchableOpacity style = {styles.CommentButton}>
+                    <TextInput placeholder = "Escribe un comentario" 
+                    keyboardType='default' 
+                    style = {styles.CommentInput}
+                    onChangeText={text => this.setState({ comment: text })}
+                    value = {this.state.comment}/>
+
+                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.handleComment()}>
                         <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
