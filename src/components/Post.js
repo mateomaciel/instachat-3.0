@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity, Modal } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native'
 import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
 import { TextInput } from 'react-native-gesture-handler';
@@ -13,7 +13,8 @@ export default class Post extends Component{
             liked: false,
             likes: 0,
             showModal: false,
-            comment:""
+            comment:"",
+            filteredComments: this.props.dataItem.data.comments,
         }
     }
 
@@ -92,7 +93,8 @@ export default class Post extends Component{
 
     handleComment(){
         const posteoActualizar = db.collection('posts').doc(this.props.dataItem.id)
-        const comment ={user:auth.currentUser.email, comment: this.state.comment, fecha:new Date()}
+        const comment ={user:auth.currentUser.email, comment: this.state.comment, fecha:new Date(), displayname:auth.currentUser.displayName}
+        console.log(this.props.dataItem.data.comments)
 
         posteoActualizar.update({
             comments:firebase.firestore.FieldValue.arrayUnion(comment)
@@ -102,6 +104,8 @@ export default class Post extends Component{
             this.setState({
                 comment:""
             })
+
+            console.log(auth.currentUser)
         })
     }
     
@@ -155,7 +159,18 @@ export default class Post extends Component{
                 </View>
                 
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+
+                <FlatList
+                    data={ this.state.filteredComments }
+                    keyExtractor={ item => item.id}
+                    renderItem={ ({item}) => 
+                    <Text>{item.displayname}</Text> }
+/>
+
+
+
             </View>
+            
             )
         }
         else{
@@ -201,6 +216,17 @@ export default class Post extends Component{
                 </View>
                 
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+
+                <FlatList
+                    data={ this.state.filteredComments }
+                    keyExtractor={ item => item.id}
+                    renderItem={ ({item}) =>
+<>
+                    <Text>{item.displayname}</Text>
+                    <Text>{item.comment}</Text>
+                    </>
+                    }
+/>
             </View>
         )
         }
