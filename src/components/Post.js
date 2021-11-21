@@ -81,6 +81,15 @@ export default class Post extends Component{
         posteoActualizar.delete()
     }
 
+    ControlComment(){
+        if (this.state.comment !== "" ){
+            this.handleComment(this.state.comment)
+        }
+        else {
+            alert("Completar los campos!")
+        }
+    }
+
     handleComment(){
         const posteoActualizar = db.collection('posts').doc(this.props.dataItem.id)
         const comment ={user:auth.currentUser.email, comment: this.state.comment, fecha:new Date()}
@@ -140,7 +149,7 @@ export default class Post extends Component{
                     onChangeText={text => this.setState({ comment: text })}
                     value = {this.state.comment}/>
 
-                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.handleComment()}>
+                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.ControlComment()}>
                         <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
@@ -186,7 +195,7 @@ export default class Post extends Component{
                     onChangeText={text => this.setState({ comment: text })}
                     value = {this.state.comment}/>
 
-                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.handleComment()}>
+                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.ControlComment()}>
                         <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
