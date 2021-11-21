@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity, Modal } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native'
 import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
 import { TextInput } from 'react-native-gesture-handler';
@@ -13,6 +13,8 @@ export default class Post extends Component{
             liked: false,
             likes: 0,
             showModal: false,
+            comment:"",
+            filteredComments: this.props.dataItem.data.comments,
         }
     }
 
@@ -59,25 +61,38 @@ export default class Post extends Component{
         })
     }
 
-       //Muestra el modal
-       showModal(){
-        console.log('Mostrando modal')
-        this.setState({
-            showModal: true,
-        })
-    }
-    
-    //Cierra el modal
-    closeModal(){
-        console.log('Cerrando modal')
-        this.setState({
-            showModal: false,
-        })
-    }
+
 
     delete(id){
         const posteoActualizar = db.collection('posts').doc(id)
         posteoActualizar.delete()
+    }
+
+    ControlComment(){
+        if (this.state.comment !== "" ){
+            this.handleComment(this.state.comment)
+        }
+        else {
+            alert("Completar los campos!")
+        }
+    }
+
+    handleComment(){
+        const posteoActualizar = db.collection('posts').doc(this.props.dataItem.id)
+        const comment ={user:auth.currentUser.email, comment: this.state.comment, fecha:new Date(), displayname:auth.currentUser.displayName}
+        console.log(this.props.dataItem.data.comments)
+
+        posteoActualizar.update({
+            comments:firebase.firestore.FieldValue.arrayUnion(comment)
+        })
+
+        .then(() => {
+            this.setState({
+                comment:""
+            })
+            
+            console.log(auth.currentUser)
+        })
     }
     
     render(){
@@ -118,14 +133,31 @@ export default class Post extends Component{
                 
                 
                 <View style = {styles.CommentBox}>
-                    <TextInput placeholder = "Escribe un comentario" keyboardType='default' style = {styles.CommentInput}/>
-                    <TouchableOpacity style = {styles.CommentButton}>
+                    <TextInput placeholder = "Escribe un comentario" 
+                    keyboardType='default' 
+                    style = {styles.CommentInput}
+                    onChangeText={text => this.setState({ comment: text })}
+                    value = {this.state.comment}/>
+
+                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.ControlComment()}>
                         <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
                 
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+
+                <FlatList
+                    data={ this.state.filteredComments }
+                    keyExtractor={ item => item.id}
+                    renderItem={ ({item}) => 
+                    <Text>{item.displayname}: {item.comment}</Text>
+                 }
+                />
+
+
+
             </View>
+            
             )
         }
         else{
@@ -159,13 +191,26 @@ export default class Post extends Component{
                 
                 
                 <View style = {styles.CommentBox}>
-                    <TextInput placeholder = "Escribe un comentario" keyboardType='default' style = {styles.CommentInput}/>
-                    <TouchableOpacity style = {styles.CommentButton}>
+                    <TextInput placeholder = "Escribe un comentario" 
+                    keyboardType='default' 
+                    style = {styles.CommentInput}
+                    onChangeText={text => this.setState({ comment: text })}
+                    value = {this.state.comment}/>
+
+                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.ControlComment()}>
                         <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
                 </View>
                 
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+
+                <FlatList
+                    data={ this.state.filteredComments }
+                    keyExtractor={ item => item.id}
+                    renderItem={ ({item}) =>
+                    <Text>{item.displayname}: {item.comment}</Text>
+                    }
+                />
             </View>
         )
         }
