@@ -13,6 +13,7 @@ export default class Post extends Component{
             liked: false,
             likes: 0,
             showModal: false,
+            comment:""
         }
     }
 
@@ -78,6 +79,21 @@ export default class Post extends Component{
     delete(id){
         const posteoActualizar = db.collection('posts').doc(id)
         posteoActualizar.delete()
+    }
+
+    handleComment(){
+        const posteoActualizar = db.collection('posts').doc(this.props.dataItem.id)
+        const comment ={user:auth.currentUser.email, comment: this.state.comment, fecha:new Date()}
+
+        posteoActualizar.update({
+            comments:firebase.firestore.FieldValue.arrayUnion(comment)
+        })
+
+        .then(() => {
+            this.setState({
+                comment:""
+            })
+        })
     }
     
     render(){
@@ -159,8 +175,13 @@ export default class Post extends Component{
                 
                 
                 <View style = {styles.CommentBox}>
-                    <TextInput placeholder = "Escribe un comentario" keyboardType='default' style = {styles.CommentInput}/>
-                    <TouchableOpacity style = {styles.CommentButton}>
+                    <TextInput placeholder = "Escribe un comentario" 
+                    keyboardType='default' 
+                    style = {styles.CommentInput}
+                    onChangeText={text => this.setState({ comment: text })}
+                    value = {this.state.comment}/>
+
+                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.handleComment()}>
                         <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
                 </View>

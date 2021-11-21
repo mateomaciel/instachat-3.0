@@ -38,7 +38,7 @@ export default class Menu extends Component{
         })
         .catch( response => {
             console.log(response);
-            alert("Error en el loggeo");
+            alert("Error en el logge");
             this.setState({
                 error: "Error en loggeo"
             })
@@ -59,7 +59,7 @@ export default class Menu extends Component{
         })
         .catch( error => {
             console.log(error);
-            alert("Error en el registro");
+            alert(error);
             this.setState({
                 error: "Fallo en el registro"
             })
