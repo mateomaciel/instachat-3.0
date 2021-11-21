@@ -246,7 +246,6 @@ const styles = StyleSheet.create({
     CommentBox: {
         flexDirection: 'row',
         alignItems: 'center',
-        alignItems: 'center',
         justifyContent: 'space-between',
     },
 

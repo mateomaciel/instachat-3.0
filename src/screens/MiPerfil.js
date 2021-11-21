@@ -42,17 +42,14 @@ export default class MiPerfil extends Component{
                     <Text style = {styles.text}> Logout </Text>
                 </TouchableOpacity>
             </View>
-            <View style = {styles.UserInfo}>
+            <View  style = {styles.UserInfo}>
+            <Image style={styles.ProfIm} source={require('../../assets/ProfileIcon.jpg')}resizeMode='cover'/>
             <View style={styles.Username}>
-                <Text>{auth.currentUser.displayName}</Text>
-            </View>
-            <View style={styles.UserEmail}>
-                <Text>{auth.currentUser.email}</Text>
+                <Text style={styles.UsernameText}>{auth.currentUser.displayName}</Text>
             </View>
             <View style={styles.NdePosts}>
-                <Text>Publicaciones: {this.state.posts.length}</Text> 
-            </View>
-            <View style={styles.UltAcceso}>
+                <Text>Email: {auth.currentUser.email}</Text>
+                <Text>Publicaciones: {this.state.posts.length}</Text>
                 <Text>Ultimo logueo: {auth.currentUser.metadata.lastSignInTime}</Text>
             </View>
             </View>
@@ -100,16 +97,30 @@ const styles = StyleSheet.create({
 
     },
     UserInfo: {
+        backgroundColor: '#64a5af',
+        borderBottomWidth: 2,
+        paddingBottom: '2vh',
+        borderColor: '#003c46'
     },
     Container: {
         flex: 1,
+        backgroundColor: '#64a5af',
     },
-    Username: {},
-    UserEmail: {},
-    NdePosts: {},
-    UltAcceso: {},
-    UserPosts: {
+    ProfIm: {
+        width: '24vw',
+        height: '10vh',
+        alignSelf: 'center'
+    },
+    Username: {
+        alignItems: 'center',
+        
+    },
+    UsernameText: {
+        fontSize: '7vw'
+    },
+    NdePosts: {
+        alignItems: 'center',
 
-    }
+    },
 
 })
