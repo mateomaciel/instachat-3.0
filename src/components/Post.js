@@ -97,7 +97,7 @@ export default class Post extends Component{
     
     render(){
 
-        if(auth.currentUser.displayName === this.props.dataItem.data.owner){
+        if(auth.currentUser.displayName === this.props.dataItem.data.owner && this.state.filteredComments.length > 0){
             return(
                 <View style={styles.container}>
                 <View style = {styles.Usernamecontainer2}>
@@ -144,23 +144,24 @@ export default class Post extends Component{
                     </TouchableOpacity>
                 </View>
                 
-                <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
-
-                <FlatList
+                <View style={styles.CommentDisplay}>
+                  <FlatList
                     data={ this.state.filteredComments }
                     keyExtractor={ item => item.id}
                     renderItem={ ({item}) => 
-                    <Text>{item.displayname}: {item.comment}</Text>
-                 }
-                />
+                    <Text style = {styles.text}>{item.displayname}: {item.comment}</Text>
+                    }
+                    />  
+                </View>
+                
 
-
+                <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
 
             </View>
             
             )
         }
-        else{
+        else if(auth.currentUser.displayName !== this.props.dataItem.data.owner && this.state.filteredComments.length > 0){
             return(
             <View style={styles.container}>
                 <View style = {styles.Usernamecontainer}>
@@ -202,17 +203,131 @@ export default class Post extends Component{
                     </TouchableOpacity>
                 </View>
                 
-                <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
-
-                <FlatList
+                
+                <View style={styles.CommentDisplay}>
+                    <FlatList
                     data={ this.state.filteredComments }
                     keyExtractor={ item => item.id}
                     renderItem={ ({item}) =>
-                    <Text>{item.displayname}: {item.comment}</Text>
+                    <Text style={styles.text}>{item.displayname}: {item.comment}</Text>
                     }
-                />
+                    /> 
+                </View>
+                
+
+                <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
             </View>
         )
+        }
+        else if(auth.currentUser.displayName === this.props.dataItem.data.owner && this.state.filteredComments.length < 1){
+            return(
+                <View style={styles.container}>
+                <View style = {styles.Usernamecontainer2}>
+                    <TouchableOpacity onPress ={()=> this.delete(this.props.dataItem.id)} style = {styles.DelButton}>
+                        <Text style = {styles.text}>
+                            Eliminar publicación
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.Username2}>{this.props.dataItem.data.owner}</Text>
+                    <Image style={styles.ProfileIcon} source={require('../../assets/ProfileIcon.jpg')}resizeMode='cover'/>
+                </View>
+                <Image style={styles.image}
+                    source={{uri:`${this.props.dataItem.data.photo}`}}
+                    resizeMode='cover'/>
+                <View style = {styles.LikeInfo}>
+                {
+                    !this.state.liked ?
+                    <TouchableOpacity onPress = {()=> this.onLike()}>
+                        <Image style={styles.like}source={require('../../assets/unliked.png')}resizeMode='cover'/>
+
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity onPress = {()=> this.onDislike()}>
+                        <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='cover'/>
+
+                    </TouchableOpacity>
+                }
+                
+                <Text style={styles.LikesInd}>Likes: {this.state.likes}</Text>
+                </View>
+
+                <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
+                
+                
+                <View style = {styles.CommentBox}>
+                    <TextInput placeholder = "Escribe un comentario" 
+                    keyboardType='default' 
+                    style = {styles.CommentInput}
+                    onChangeText={text => this.setState({ comment: text })}
+                    value = {this.state.comment}/>
+
+                    <TouchableOpacity style = {styles.CommentButton} onPress={() => this.ControlComment()}>
+                        <Text style = {styles.text}>Comentar</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                <View style={styles.CommentDisplay}>
+                    <Text style={styles.text}>Todavía no hay comentarios</Text> 
+                </View>
+                
+
+                <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+
+            </View>
+            
+            )
+        }
+        else if(auth.currentUser.displayName !== this.props.dataItem.data.owner && this.state.filteredComments.length < 1){
+            return(
+                <View style={styles.container}>
+                    <View style = {styles.Usernamecontainer}>
+                        <Text style={styles.Username}>{this.props.dataItem.data.owner}</Text>
+                        <Image style={styles.ProfileIcon} source={require('../../assets/ProfileIcon.jpg')}resizeMode='cover'/>
+                    </View>
+                    <Image style={styles.image}
+                        source={{uri:`${this.props.dataItem.data.photo}`}}
+                        resizeMode='cover'/>
+                    <View style = {styles.LikeInfo}>
+                    {
+                        !this.state.liked ?
+                        <TouchableOpacity onPress = {()=> this.onLike()}>
+                            <Image style={styles.like}source={require('../../assets/unliked.png')}resizeMode='cover'/>
+    
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress = {()=> this.onDislike()}>
+                            <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='cover'/>
+    
+                        </TouchableOpacity>
+                    }
+                    
+                    <Text style={styles.LikesInd}>Likes: {this.state.likes}</Text>
+                    </View>
+    
+                    <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
+                    
+                    
+                    <View style = {styles.CommentBox}>
+                        <TextInput placeholder = "Escribe un comentario" 
+                        keyboardType='default' 
+                        style = {styles.CommentInput}
+                        onChangeText={text => this.setState({ comment: text })}
+                        value = {this.state.comment}/>
+    
+                        <TouchableOpacity style = {styles.CommentButton} onPress={() => this.ControlComment()}>
+                            <Text style = {styles.text}>Comentar</Text>
+                        </TouchableOpacity>
+                    </View>
+                    
+                    
+                    <View style={styles.CommentDisplay}>
+                        <Text style={styles.text}>Todavía no hay comentarios</Text> 
+                    </View>
+                    
+    
+                    <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
+                </View>
+            )
         }
         
         
@@ -333,5 +448,15 @@ const styles = StyleSheet.create({
         paddingRight: '0.3vw',
         paddingBottom: '0.6vw',
         alignItems: 'center',
-    } 
+    },
+    CommentDisplay: {
+        borderWidth: 2,
+        borderRadius: 4,
+        padding: '1vw',
+        marginTop: '1vh',
+        marginLeft: '2vw',
+        marginRight: '7vw',
+        backgroundColor: '#003c46',
+        borderColor: '#003c46',
+    },
 })
