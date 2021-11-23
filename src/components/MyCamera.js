@@ -140,7 +140,7 @@ export const styles = StyleSheet.create({
     text: {
         width: '100%',
         textAlign: 'center',
-        color: 'white',
+        color: '#64a5af',
         paddingTop: 15
     },
     imageContainer: {
@@ -152,7 +152,7 @@ export const styles = StyleSheet.create({
     },
     btnContainer: {
         flex: 1,
-        backgroundColor: '#000020',
+        backgroundColor: '#64a5af',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
@@ -161,13 +161,13 @@ export const styles = StyleSheet.create({
     accept: {
         width: 100,
         height: 50,
-        backgroundColor: '#7F6DF3',
-        borderRadius: 50
+        backgroundColor: '#003c46',
+        borderRadius: 50,
     },
     reject: {
         width: 100,
         height: 50,
-        backgroundColor: '#FF392B',
+        backgroundColor: '#003c46',
         borderRadius: 50
     }
 })
