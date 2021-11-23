@@ -330,6 +330,28 @@ export default class Post extends Component{
                 </View>
 
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
+
+                 <TouchableOpacity onPress={()=>{this.showModal()}}>
+                    <Text>
+                        Ver comentarios
+                    </Text>
+                </TouchableOpacity>
+                { 
+                this.state.showModal ?
+
+                        <Modal 
+                        animationType = "fade"
+                        transparent = {false}
+                        visible = {this.state.showModal}
+                        style = {styles.modal}
+                        >
+                            <View style={styles.modalView}>
+                                {/* Botón de cierre del modal */}
+                                <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
+                                        <Text style={styles.modalText} >X</Text>
+                                </TouchableOpacity>
+
+                                </View>
                 
                 
                 <View style = {styles.CommentBox}>
@@ -347,11 +369,19 @@ export default class Post extends Component{
                 <View style={styles.CommentDisplay}>
                     <Text style={styles.text}>Todavía no hay comentarios</Text> 
                 </View>
+
+                  </Modal>
+                        :
+                        null
+                }
                 
 
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
 
+       
             </View>
+
+            
             
             )
         }
@@ -385,6 +415,28 @@ export default class Post extends Component{
                     </View>
     
                     <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
+
+                     <TouchableOpacity onPress={()=>{this.showModal()}}>
+                    <Text>
+                        Ver comentarios
+                    </Text>
+                </TouchableOpacity>
+                { 
+                this.state.showModal ?
+
+                        <Modal 
+                        animationType = "fade"
+                        transparent = {false}
+                        visible = {this.state.showModal}
+                        style = {styles.modal}
+                        >
+                            <View style={styles.modalView}>
+                                {/* Botón de cierre del modal */}
+                                <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
+                                        <Text style={styles.modalText} >X</Text>
+                                </TouchableOpacity>
+
+                                </View>
                     
                     
                     <View style = {styles.CommentBox}>
@@ -403,6 +455,11 @@ export default class Post extends Component{
                     <View style={styles.CommentDisplay}>
                         <Text style={styles.text}>Todavía no hay comentarios</Text> 
                     </View>
+
+                      </Modal>
+                        :
+                        null
+                }
                     
     
                     <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>

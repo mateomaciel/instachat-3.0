@@ -27,7 +27,8 @@ export default class CreatePost extends Component {
             console.log(response);
             alert("Posteo realizado!");
             this.setState({
-                comment: ""
+                comment: "",
+                
             })
             console.log(this.props);
             this.props.navigation.navigate('Home');
