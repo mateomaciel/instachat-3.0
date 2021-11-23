@@ -61,6 +61,22 @@ export default class Post extends Component{
         })
     }
 
+     //Muestra el modal
+    showModal(){
+        console.log('Mostrando modal')
+        this.setState({
+            showModal: true,
+        })
+    }
+    
+    //Cierra el modal
+    closeModal(){
+        console.log('Cerrando modal')
+        this.setState({
+            showModal: false,
+        })
+    }
+
 
 
     delete(id){
@@ -130,9 +146,31 @@ export default class Post extends Component{
                 </View>
 
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
-                
-                
-                <View style = {styles.CommentBox}>
+
+                    <TouchableOpacity onPress={()=>{this.showModal()}}>
+                    <Text>
+                        Ver comentarios
+                    </Text>
+                </TouchableOpacity>
+
+                 {
+                    this.state.showModal ?
+
+                        <Modal 
+                        animationType = "fade"
+                        transparent = {false}
+                        visible = {this.state.showModal}
+                        style = {styles.modal}
+                        >
+                            <View style={styles.modalView}>
+                                {/* Botón de cierre del modal */}
+                                <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
+                                        <Text style={styles.modalText} >X</Text>
+                                </TouchableOpacity>
+                               
+                            </View>
+
+                              <View style = {styles.CommentBox}>
                     <TextInput placeholder = "Escribe un comentario" 
                     keyboardType='default' 
                     style = {styles.CommentInput}
@@ -142,6 +180,7 @@ export default class Post extends Component{
                     <TouchableOpacity style = {styles.CommentButton} onPress={() => this.ControlComment()}>
                         <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
+                     
                 </View>
                 
                 <View style={styles.CommentDisplay}>
@@ -153,6 +192,14 @@ export default class Post extends Component{
                     }
                     />  
                 </View>
+
+                        </Modal>
+                        :
+                        null
+                }
+                
+                
+              
                 
 
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
@@ -190,8 +237,29 @@ export default class Post extends Component{
 
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
                 
-                
-                <View style = {styles.CommentBox}>
+                 <TouchableOpacity onPress={()=>{this.showModal()}}>
+                    <Text>
+                        Ver comentarios
+                    </Text>
+                </TouchableOpacity>
+                { 
+                this.state.showModal ?
+
+                        <Modal 
+                        animationType = "fade"
+                        transparent = {false}
+                        visible = {this.state.showModal}
+                        style = {styles.modal}
+                        >
+                            <View style={styles.modalView}>
+                                {/* Botón de cierre del modal */}
+                                <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
+                                        <Text style={styles.modalText} >X</Text>
+                                </TouchableOpacity>
+
+                                </View>
+                               
+                                   <View style = {styles.CommentBox}>
                     <TextInput placeholder = "Escribe un comentario" 
                     keyboardType='default' 
                     style = {styles.CommentInput}
@@ -213,6 +281,16 @@ export default class Post extends Component{
                     }
                     /> 
                 </View>
+
+                           
+
+                        </Modal>
+                        :
+                        null
+                }
+                 
+
+              
                 
 
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
@@ -299,7 +377,9 @@ export default class Post extends Component{
                             <Image style={styles.like}source={require('../../assets/like.png')}resizeMode='cover'/>
     
                         </TouchableOpacity>
+
                     }
+                    
                     
                     <Text style={styles.LikesInd}>Likes: {this.state.likes}</Text>
                     </View>
