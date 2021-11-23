@@ -80,7 +80,8 @@ export default class Post extends Component{
     handleComment(){
         const posteoActualizar = db.collection('posts').doc(this.props.dataItem.id)
         const comment ={user:auth.currentUser.email, comment: this.state.comment, fecha:new Date(), displayname:auth.currentUser.displayName}
-        console.log(this.props.dataItem.data.comments)
+        
+        console.log(posteoActualizar)
 
         posteoActualizar.update({
             comments:firebase.firestore.FieldValue.arrayUnion(comment)
@@ -88,7 +89,8 @@ export default class Post extends Component{
 
         .then(() => {
             this.setState({
-                comment:""
+                comment:"",
+                filteredComments: this.props.dataItem.data.comments
             })
             
             console.log(auth.currentUser)
