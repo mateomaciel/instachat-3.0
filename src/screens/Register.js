@@ -14,7 +14,7 @@ export default class Register extends Component {
 
     ControlRegister(){
         if (this.state.email !== "" && this.state.password !== "" && this.state.username !== ""){
-            this.props.handleRegister(this.state.email, this.state.password, this.state.username)
+            this.props.handleRegister(this.state.email, this.state.password, this.state.username.toLowerCase())
         }
         else {
             alert("Completar los campos!")
