@@ -15,6 +15,9 @@ export default class Post extends Component{
             showModal: false,
             comment:"",
             filteredComments: this.props.dataItem.data.comments,
+            clase: "hide",
+            mensaje: "ver más"
+            
         }
     }
 
@@ -66,6 +69,8 @@ export default class Post extends Component{
         console.log('Mostrando modal')
         this.setState({
             showModal: true,
+            mensaje:""
+        
         })
     }
     
@@ -74,7 +79,11 @@ export default class Post extends Component{
         console.log('Cerrando modal')
         this.setState({
             showModal: false,
+            mensaje:"ver mas"
+
         })
+
+        
     }
 
 
@@ -94,6 +103,8 @@ export default class Post extends Component{
     }
 
     handleComment(){
+
+    
         const posteoActualizar = db.collection('posts').doc(this.props.dataItem.id)
         const comment ={user:auth.currentUser.email, comment: this.state.comment, fecha:new Date(), displayname:auth.currentUser.displayName}
         
@@ -111,8 +122,11 @@ export default class Post extends Component{
             
             console.log(auth.currentUser)
         })
+
+     
     }
-    
+
+ 
     render(){
 
         if(auth.currentUser.displayName === this.props.dataItem.data.owner && this.state.filteredComments.length > 0){
@@ -150,9 +164,12 @@ export default class Post extends Component{
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
 
                     <TouchableOpacity onPress={()=>{this.showModal()}}>
-                    <Text>
-                        Ver comentarios
-                    </Text>
+
+                    <div className={this.state.clase}>
+                    
+                    <button type="submit"  >{this.state.mensaje} </button>
+                   </div>
+                    
                 </TouchableOpacity>
 
                  {
@@ -167,7 +184,7 @@ export default class Post extends Component{
                             <View style={styles.modalView}>
                                 {/* Botón de cierre del modal */}
                                 <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
-                                        <Text style={styles.modalText} >X</Text>
+                                        <Text style={styles.modalText} >ver menos</Text>
                                 </TouchableOpacity>
                                
                             </View>
@@ -185,6 +202,7 @@ export default class Post extends Component{
                      
                 </View>
                 
+                
                 <View style={styles.CommentDisplay}>
                   <FlatList
                     data={ this.state.filteredComments }
@@ -194,16 +212,17 @@ export default class Post extends Component{
                     }
                     />  
                 </View>
+                
 
                         </Modal>
+                        
                         :
                         null
+                        
                 }
                 
                 
-              
                 
-
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
 
             </View>
@@ -240,9 +259,10 @@ export default class Post extends Component{
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
                 
                  <TouchableOpacity onPress={()=>{this.showModal()}}>
-                    <Text>
-                        Ver comentarios
-                    </Text>
+                 <div className={this.state.clase}>
+                    
+                    <button type="submit"  >{this.state.mensaje} </button>
+                   </div>
                 </TouchableOpacity>
                 { 
                 this.state.showModal ?
@@ -256,7 +276,7 @@ export default class Post extends Component{
                             <View style={styles.modalView}>
                                 {/* Botón de cierre del modal */}
                                 <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
-                                        <Text style={styles.modalText} >X</Text>
+                                        <Text style={styles.modalText} >ver menos</Text>
                                 </TouchableOpacity>
 
                                 </View>
@@ -334,9 +354,10 @@ export default class Post extends Component{
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
 
                  <TouchableOpacity onPress={()=>{this.showModal()}}>
-                    <Text>
-                        Ver comentarios
-                    </Text>
+                 <div className={this.state.clase}>
+                    
+                    <button type="submit"  >{this.state.mensaje} </button>
+                   </div>
                 </TouchableOpacity>
                 { 
                 this.state.showModal ?
@@ -350,7 +371,7 @@ export default class Post extends Component{
                             <View style={styles.modalView}>
                                 {/* Botón de cierre del modal */}
                                 <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
-                                        <Text style={styles.modalText} >X</Text>
+                                        <Text style={styles.modalText} >ver menos</Text>
                                 </TouchableOpacity>
 
                                 </View>
@@ -419,9 +440,11 @@ export default class Post extends Component{
                     <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
 
                      <TouchableOpacity onPress={()=>{this.showModal()}}>
-                    <Text>
-                        Ver comentarios
-                    </Text>
+                         
+                     <div className={this.state.clase}>
+                    
+                    <button type="submit"  >{this.state.mensaje} </button>
+                   </div>
                 </TouchableOpacity>
                 { 
                 this.state.showModal ?
@@ -435,7 +458,7 @@ export default class Post extends Component{
                             <View style={styles.modalView}>
                                 {/* Botón de cierre del modal */}
                                 <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
-                                        <Text style={styles.modalText} >X</Text>
+                                        <Text style={styles.modalText} >ver menos</Text>
                                 </TouchableOpacity>
 
                                 </View>
