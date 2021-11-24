@@ -84,7 +84,7 @@ export default class Buscador extends Component{
                     </View>
                     <View>
                         <Image style={styles.NoLoadImg} source={require('../../assets/ProfileIcon.jpg')}resizeMode='cover'/>
-                        <Text style={styles.NoResult}>No hay resultados para su busqueda</Text>
+                        <Text style={styles.NoResult}>El usuario no existe o aún no tiene publicaciones</Text>
                     </View>
                 </View>
                 )   

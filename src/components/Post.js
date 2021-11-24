@@ -15,6 +15,8 @@ export default class Post extends Component{
             showModal: false,
             comment:"",
             filteredComments: this.props.dataItem.data.comments,
+            ModalText: "Ver comentarios"
+            
         }
     }
 
@@ -61,20 +63,19 @@ export default class Post extends Component{
         })
     }
 
-     //Muestra el modal
-    showModal(){
-        console.log('Mostrando modal')
-        this.setState({
-            showModal: true,
-        })
-    }
-    
-    //Cierra el modal
-    closeModal(){
-        console.log('Cerrando modal')
-        this.setState({
-            showModal: false,
-        })
+    ModalLogic(){
+        if(this.state.showModal === true){
+            this.setState({
+                showModal: false,
+                ModalText: "Ver comentarios"
+            })
+        }
+        else{
+            this.setState({
+                showModal: true,
+                ModalText: "Esconder comentarios"
+            })
+        }
     }
 
 
@@ -94,6 +95,8 @@ export default class Post extends Component{
     }
 
     handleComment(){
+
+    
         const posteoActualizar = db.collection('posts').doc(this.props.dataItem.id)
         const comment ={user:auth.currentUser.email, comment: this.state.comment, fecha:new Date(), displayname:auth.currentUser.displayName}
         
@@ -111,8 +114,11 @@ export default class Post extends Component{
             
             console.log(auth.currentUser)
         })
+
+     
     }
-    
+
+ 
     render(){
 
         if(auth.currentUser.displayName === this.props.dataItem.data.owner && this.state.filteredComments.length > 0){
@@ -149,30 +155,22 @@ export default class Post extends Component{
 
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
 
-                    <TouchableOpacity onPress={()=>{this.showModal()}}>
-                    <Text>
-                        Ver comentarios
-                    </Text>
+                <TouchableOpacity style = {styles.ModalButton} onPress={()=>{this.ModalLogic()}}>
+                    <Text style = {styles.text}>{this.state.ModalText}</Text>
                 </TouchableOpacity>
 
                  {
                     this.state.showModal ?
 
                         <Modal 
-                        animationType = "fade"
+                        animationType = 'slide'
                         transparent = {false}
                         visible = {this.state.showModal}
                         style = {styles.modal}
                         >
-                            <View style={styles.modalView}>
-                                {/* Botón de cierre del modal */}
-                                <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
-                                        <Text style={styles.modalText} >X</Text>
-                                </TouchableOpacity>
-                               
-                            </View>
+                    
 
-                              <View style = {styles.CommentBox}>
+                    <View style = {styles.CommentBox}>
                     <TextInput placeholder = "Escribe un comentario" 
                     keyboardType='default' 
                     style = {styles.CommentInput}
@@ -182,10 +180,10 @@ export default class Post extends Component{
                     <TouchableOpacity style = {styles.CommentButton} onPress={() => this.ControlComment()}>
                         <Text style = {styles.text}>Comentar</Text>
                     </TouchableOpacity>
-                     
-                </View>
+                    </View>
                 
-                <View style={styles.CommentDisplay}>
+                
+                    <View style={styles.CommentDisplay}>
                   <FlatList
                     data={ this.state.filteredComments }
                     keyExtractor={ item => item.id}
@@ -193,17 +191,18 @@ export default class Post extends Component{
                     <Text style = {styles.text}>{item.displayname}: {item.comment}</Text>
                     }
                     />  
-                </View>
+                    </View>
+                
 
-                        </Modal>
+                    </Modal>
+                        
                         :
                         null
+                        
                 }
                 
                 
-              
                 
-
                 <Text style={styles.CA}>Publicado hace: {Math.ceil((Date.now()- this.props.dataItem.data.createdAt)/1000/3600)} horas</Text>
 
             </View>
@@ -239,29 +238,21 @@ export default class Post extends Component{
 
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
                 
-                 <TouchableOpacity onPress={()=>{this.showModal()}}>
-                    <Text>
-                        Ver comentarios
-                    </Text>
+                <TouchableOpacity style = {styles.ModalButton} onPress={()=>{this.ModalLogic()}}>
+                    <Text style = {styles.text}>{this.state.ModalText}</Text>
                 </TouchableOpacity>
                 { 
                 this.state.showModal ?
 
                         <Modal 
-                        animationType = "fade"
+                        animationType = 'slide'
                         transparent = {false}
                         visible = {this.state.showModal}
                         style = {styles.modal}
                         >
-                            <View style={styles.modalView}>
-                                {/* Botón de cierre del modal */}
-                                <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
-                                        <Text style={styles.modalText} >X</Text>
-                                </TouchableOpacity>
-
-                                </View>
+                            
                                
-                                   <View style = {styles.CommentBox}>
+                    <View style = {styles.CommentBox}>
                     <TextInput placeholder = "Escribe un comentario" 
                     keyboardType='default' 
                     style = {styles.CommentInput}
@@ -333,28 +324,18 @@ export default class Post extends Component{
 
                 <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
 
-                 <TouchableOpacity onPress={()=>{this.showModal()}}>
-                    <Text>
-                        Ver comentarios
-                    </Text>
+                <TouchableOpacity style = {styles.ModalButton} onPress={()=>{this.ModalLogic()}}>
+                    <Text style = {styles.text}>{this.state.ModalText}</Text>
                 </TouchableOpacity>
                 { 
                 this.state.showModal ?
 
                         <Modal 
-                        animationType = "fade"
+                        animationType = 'slide'
                         transparent = {false}
                         visible = {this.state.showModal}
                         style = {styles.modal}
                         >
-                            <View style={styles.modalView}>
-                                {/* Botón de cierre del modal */}
-                                <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
-                                        <Text style={styles.modalText} >X</Text>
-                                </TouchableOpacity>
-
-                                </View>
-                
                 
                 <View style = {styles.CommentBox}>
                     <TextInput placeholder = "Escribe un comentario" 
@@ -418,28 +399,18 @@ export default class Post extends Component{
     
                     <Text style={styles.Desc}>{this.props.dataItem.data.description}</Text>
 
-                     <TouchableOpacity onPress={()=>{this.showModal()}}>
-                    <Text>
-                        Ver comentarios
-                    </Text>
+                <TouchableOpacity style = {styles.ModalButton} onPress={()=>{this.ModalLogic()}}>
+                    <Text style = {styles.text}>{this.state.ModalText}</Text>
                 </TouchableOpacity>
                 { 
                 this.state.showModal ?
 
                         <Modal 
-                        animationType = "fade"
+                        animationType = 'slide'
                         transparent = {false}
                         visible = {this.state.showModal}
                         style = {styles.modal}
                         >
-                            <View style={styles.modalView}>
-                                {/* Botón de cierre del modal */}
-                                <TouchableOpacity style={styles.closeModal} onPress={()=>{this.closeModal()}}>
-                                        <Text style={styles.modalText} >X</Text>
-                                </TouchableOpacity>
-
-                                </View>
-                    
                     
                     <View style = {styles.CommentBox}>
                         <TextInput placeholder = "Escribe un comentario" 
@@ -543,6 +514,7 @@ const styles = StyleSheet.create({
     },
 
     CommentBox: {
+        marginTop: '1vh',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -562,6 +534,7 @@ const styles = StyleSheet.create({
 
     CommentButton: {
         marginRight: '7vw',
+        marginLeft: '2vw',
         borderWidth: 2,
         borderColor: '#003c46',
         backgroundColor: '#003c46',
@@ -598,4 +571,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#003c46',
         borderColor: '#003c46',
     },
+    ModalButton: {
+        marginLeft: '2vw',
+        borderWidth: 2,
+        borderColor: '#003c46',
+        backgroundColor: '#003c46',
+        borderRadius: 4,
+        alignSelf: 'flex-start',
+        paddingTop: '0.3vw',
+        paddingLeft: '0.3vw',
+        paddingRight: '0.3vw',
+        paddingBottom: '0.6vw',
+    },
+    modal: {
+        borderWidth: 0,
+    }
 })

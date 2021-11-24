@@ -96,7 +96,7 @@ export default class MyCamera extends React.Component{
             
                 ref = {referencia => this.camera = referencia}
             >
-                {/* Ref hace referencia al objeto Camera, para luego utilizar sus métodos */}
+                {/*  */}
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         style={styles.button}
